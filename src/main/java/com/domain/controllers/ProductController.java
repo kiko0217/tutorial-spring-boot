@@ -6,8 +6,12 @@ import javax.validation.Valid;
 
 import com.domain.dto.ProductData;
 import com.domain.dto.ResponseData;
+import com.domain.dto.SupplierData;
+import com.domain.exceptions.NotFoundDataException;
 import com.domain.models.entities.Product;
+import com.domain.models.entities.Supplier;
 import com.domain.services.ProductService;
+import com.domain.services.SupplierService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,9 @@ public class ProductController {
     
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private SupplierService supplierService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -89,5 +96,14 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void removeOne(@PathVariable("id") Long id){
         productService.removeOne(id);
+    }
+
+    @PostMapping("/{id}")
+    public void addSupplier(@RequestBody SupplierData supplierData, @PathVariable("id") Long productId){
+        Supplier supplier = supplierService.findOne(supplierData.getId());
+        if(supplier == null){
+            throw new NotFoundDataException("Supplier with ID : " +supplierData.getId()+" not found");
+        }
+        productService.addSupplier(supplier, productId);
     }
 }

@@ -11,8 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "tbl_suppliers")
+@JsonIdentityInfo(
+    generator = ObjectIdGenerators.PropertyGenerator.class,
+    property = "id"
+)
 public class Supplier implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +33,12 @@ public class Supplier implements Serializable {
     @ManyToMany(mappedBy = "suppliers")
     private Set<Product> products;
 
+    public Set<Product> getProducts() {
+        return products;
+    }
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
     public Long getId() {
         return id;
     }

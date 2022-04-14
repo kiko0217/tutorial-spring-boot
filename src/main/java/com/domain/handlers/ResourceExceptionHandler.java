@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 
 @RestControllerAdvice
 public class ResourceExceptionHandler {
-    
     @ExceptionHandler(value = DataIntegrityViolationException.class)
     public ResponseEntity<ResponseData<String>> dataIntegrityViolationException(DataIntegrityViolationException e){
         ResponseData<String> responseData = new ResponseData<>();
@@ -19,5 +18,4 @@ public class ResourceExceptionHandler {
         responseData.setPayload(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
     }
-
 }

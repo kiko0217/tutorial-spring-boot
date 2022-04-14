@@ -4,6 +4,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 public class SupplierData {
+    Long id;
     @NotEmpty(message= "Name is required")
     private String name;
     @NotEmpty(message= "Address is required")
@@ -12,6 +13,12 @@ public class SupplierData {
     @Email(message= "Email is not valid")
     private String email;
     
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
