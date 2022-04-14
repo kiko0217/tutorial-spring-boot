@@ -1,8 +1,13 @@
 package com.domain.models.entities;
 
+import javax.validation.constraints.NotEmpty;
+
 public class ProductRequestModel {
     private Long id;
+    
+    @NotEmpty(message = "Name is required")
     private String name;
+    @NotEmpty(message = "Description is required")
     private String description;
     private double price;
 
