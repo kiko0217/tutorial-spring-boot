@@ -23,18 +23,6 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
 
     @Column(name="product_name", length=100)
     private String name;
@@ -55,6 +43,26 @@ public class Product implements Serializable {
     )
     private Set<Supplier> suppliers;
     
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Set<Supplier> getSuppliers() {
+        return suppliers;
+    }
+
+    public void setSuppliers(Set<Supplier> suppliers) {
+        this.suppliers = suppliers;
+    }
+
     public Product() {
     }
 

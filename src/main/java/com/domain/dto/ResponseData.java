@@ -26,6 +26,4 @@ public class ResponseData<T> {
     public void setPayload(T payload) {
         this.payload = payload;
     }
-
-    
 }
