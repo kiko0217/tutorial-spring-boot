@@ -1,11 +1,13 @@
 package com.domain.controllers;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
 import com.domain.dto.ProductData;
 import com.domain.dto.ResponseData;
+import com.domain.dto.SearchData;
 import com.domain.dto.SupplierData;
 import com.domain.exceptions.NotFoundDataException;
 import com.domain.models.entities.Product;
@@ -105,5 +107,24 @@ public class ProductController {
             throw new NotFoundDataException("Supplier with ID : " +supplierData.getId()+" not found");
         }
         productService.addSupplier(supplier, productId);
+    }
+
+    @PostMapping("/search/name")
+    public Product getProductByName(@RequestBody SearchData searchData){
+        return productService.findByProductName(searchData.getSearchKey());
+    }
+    @PostMapping("/search/nameLike")
+    public List<Product> getProductByNameLike(@RequestBody SearchData searchData){
+        return productService.findByProductNameLike(searchData.getSearchKey());
+    }
+
+    @GetMapping("/search/category/{categoryId}")
+    public List<Product> getProductByCategory(@PathVariable("categoryId") Long categoryId){
+        return productService.findProductByCategory(categoryId);
+    }
+
+    @GetMapping("/search/supplier/{supplierId}")
+    public List<Product> getProductBySupplier(@PathVariable("supplierId") Long supplierId){
+        return productService.findProductBySupplier(supplierId);
     }
 }

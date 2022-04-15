@@ -3,6 +3,7 @@ package com.domain.controllers;
 import javax.validation.Valid;
 
 import com.domain.dto.ResponseData;
+import com.domain.dto.SearchData;
 import com.domain.dto.SupplierData;
 import com.domain.models.entities.Supplier;
 import com.domain.services.SupplierService;
@@ -74,5 +75,10 @@ public class SupplierController {
         responseData.setStatus(true);
         responseData.setPayload(supplierService.save(supplier));
         return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/search/byemal")
+    public Supplier findByEmail(@RequestBody SearchData searchData){
+        return supplierService.findByEmail(searchData.getSearchKey());
     }
 }

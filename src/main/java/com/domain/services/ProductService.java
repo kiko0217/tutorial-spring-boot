@@ -1,5 +1,6 @@
 package com.domain.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,8 @@ public class ProductService {
     @Autowired
     private ProductRepo productRepo;
 
+    @Autowired
+    private SupplierService supplierService;
     public Product save(Product product){
         return productRepo.save(product);
     }
@@ -52,5 +55,22 @@ public class ProductService {
             throw new NotFoundDataException("Product with ID: " + productId + " not found");
         }
         product.getSuppliers().add(supplier);
+    }
+    public Product findByProductName(String name){
+        return productRepo.findProductByName(name);
+    }
+    public List<Product> findByProductNameLike(String name){
+        return productRepo.findProductByNameLike("%"+name+"%");
+    }
+    public List<Product> findProductByCategory(Long categoryId){
+        return productRepo.findProductByCategory(categoryId);   
+    }
+
+    public List<Product> findProductBySupplier(Long supplierId){
+        Supplier supplier = supplierService.findOne(supplierId);
+        if(supplier == null) {
+            return new ArrayList<>();
+        }
+        return productRepo.findProductBySupplier(supplier);
     }
 }
