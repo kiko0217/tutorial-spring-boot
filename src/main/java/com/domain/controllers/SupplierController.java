@@ -1,5 +1,7 @@
 package com.domain.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.domain.dto.ResponseData;
@@ -77,8 +79,20 @@ public class SupplierController {
         return ResponseEntity.ok(responseData);
     }
 
-    @PostMapping("/search/byemal")
+    @PostMapping("/search/byemail")
     public Supplier findByEmail(@RequestBody SearchData searchData){
         return supplierService.findByEmail(searchData.getSearchKey());
+    }
+    @PostMapping("/search/name")
+    public List<Supplier> findByName(@RequestBody SearchData searchData){
+        return supplierService.findByName(searchData.getSearchKey());
+    }
+    @PostMapping("/search/namestartwith")
+    public List<Supplier> findByNameStartWith(@RequestBody SearchData searchData){
+        return supplierService.findByNameStartWith(searchData.getSearchKey());
+    }
+    @PostMapping("/search/nameoremail")
+    public List<Supplier> findByNameOrEmail(@RequestBody SearchData searchData){
+        return supplierService.findByNameOrEmail(searchData.getSearchKey());
     }
 }
