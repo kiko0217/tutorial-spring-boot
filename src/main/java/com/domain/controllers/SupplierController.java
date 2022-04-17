@@ -24,6 +24,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 @RestController
 @RequestMapping("/api/suppliers")
 public class SupplierController {
@@ -51,6 +57,21 @@ public class SupplierController {
         responseData.setPayload(supplierService.save(supplier));
         return ResponseEntity.ok(responseData);
     }
+
+    @Operation(summary = "Get Supplier", description = "Get a list of supplier", tags = "Get")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Found All Suppliers",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = SupplierData.class)
+                    )
+                }
+            )
+        }
+    )
     @GetMapping
     public Iterable<Supplier> findAll() {
         return supplierService.findAll();

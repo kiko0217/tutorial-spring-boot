@@ -47,5 +47,5 @@ public class SupplierService {
     public List<Supplier> findByNameOrEmail(String prefix){
         return supplierRepo.findByNameContainsOrEmailContains(prefix, prefix);
     }
-    
+     
 }

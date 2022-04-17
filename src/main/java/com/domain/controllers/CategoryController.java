@@ -1,19 +1,25 @@
 package com.domain.controllers;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import com.domain.dto.CategoryData;
 import com.domain.dto.ResponseData;
+import com.domain.dto.SearchData;
 import com.domain.models.entities.Category;
 import com.domain.services.CategoryService;
 
 import org.modelmapper.ModelMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,6 +88,38 @@ public class CategoryController {
         responseData.setStatus(true);
         responseData.setPayload(categoryService.save(category));
         
+        return ResponseEntity.ok(responseData);
+    }
+
+    @PostMapping("/search/{size}/{page}")
+    public Iterable<Category> findByName(@RequestBody SearchData searchData, @PathVariable("size") int size, @PathVariable("page") int page) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return categoryService.findByName(searchData.getSearchKey(), pageable);
+    }
+
+    @PostMapping("/search/{size}/{page}/{sort}")
+    public Iterable<Category> findByName(
+        @RequestBody SearchData searchData, 
+        @PathVariable("size") int size, 
+        @PathVariable("page") int page,
+        @PathVariable("sort") String sort) {
+            Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
+            if(sort.equalsIgnoreCase("desc")){
+                pageable = PageRequest.of(page, size, Sort.by("id").descending());
+            }
+            return categoryService.findByName(searchData.getSearchKey(), pageable);
+    }
+    
+    @PostMapping("/batch")
+    public ResponseEntity<ResponseData<Iterable<Category>>> createBatch(@RequestBody CategoryData[] categoriesData){
+        ResponseData<Iterable<Category>> responseData = new ResponseData<>();
+        Iterable<Category> categories = Arrays.asList(categoriesData)
+        .stream()
+        .map(categoryData -> modelMapper.map(categoryData, Category.class))
+        .collect(Collectors.toList());
+        responseData.setPayload(categoryService.saveBatch(categories));
+        responseData.setStatus(true);
         return ResponseEntity.ok(responseData);
     }
 }

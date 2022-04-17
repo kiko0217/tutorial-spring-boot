@@ -1,5 +1,4 @@
 package com.domain.models.entities;
-
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -9,9 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.envers.Audited;
+
+
 @Entity
 @Table(name = "tbl_category")
-public class Category implements Serializable{
+@Audited
+public class Category extends BaseEntity<String> implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
