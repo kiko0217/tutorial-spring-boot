@@ -37,7 +37,4 @@ public class Category extends BaseEntity<String> implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-
-
-    
 }
