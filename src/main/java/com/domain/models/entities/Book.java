@@ -8,13 +8,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name="tbl_books")
 @SQLDelete(sql = "UPDATE tbl_books SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
+// @Where(clause = "deleted=false")
+@FilterDef(name = "deletedBookFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedBookFilter", condition = "deleted = :isDeleted")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
