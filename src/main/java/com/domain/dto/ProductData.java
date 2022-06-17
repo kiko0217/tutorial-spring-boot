@@ -1,11 +1,8 @@
 package com.domain.dto;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
-
-import com.domain.models.entities.Category;
-import com.domain.models.entities.Supplier;
 
 public class ProductData {
     private Long id;
@@ -15,8 +12,23 @@ public class ProductData {
     @NotEmpty(message = "Description is required")
     private String description;
     private double price;
-    private Category category;
-    private Set<Supplier> suppliers;
+    private CategoryData category;
+    private List<SupplierData> suppliers;
+    
+    public List<SupplierData> getSuppliers() {
+        return suppliers;
+    }
+    public void setSuppliers(List<SupplierData> suppliers) {
+        this.suppliers = suppliers;
+    }
+    
+    public CategoryData getCategory() {
+        return category;
+    }
+    public void setCategory(CategoryData category) {
+        this.category = category;
+    }
+
     public Long getId() {
         return id;
     }
@@ -41,18 +53,5 @@ public class ProductData {
     public void setPrice(double price) {
         this.price = price;
     }
-    public Category getCategory() {
-        return category;
-    }
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-    public Set<Supplier> getSuppliers() {
-        return suppliers;
-    }
-    public void setSuppliers(Set<Supplier> suppliers) {
-        this.suppliers = suppliers;
-    }
-    
     
 }

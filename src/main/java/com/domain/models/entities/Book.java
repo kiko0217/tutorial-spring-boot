@@ -8,8 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 @Entity
 @Table(name="tbl_books")
+@SQLDelete(sql = "UPDATE tbl_books SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +25,16 @@ public class Book {
     private String description;
     @Column(length = 12)
     private double price;
+
+    private boolean deleted = Boolean.FALSE;
     
+    public boolean isDeleted() {
+        return deleted;
+    }
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Book(Long id, String title, String description, double price) {
         this.id = id;
         this.title = title;
