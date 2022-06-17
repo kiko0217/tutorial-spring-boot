@@ -10,10 +10,18 @@ import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 
 @Entity
 @Table(name = "tbl_category")
 @Audited
+@Getter
+@Setter
+@NoArgsConstructor
 public class Category extends BaseEntity<String> implements Serializable{
 
     @Id
@@ -22,19 +30,9 @@ public class Category extends BaseEntity<String> implements Serializable{
     @Column(length = 100, nullable = false, unique = true)
     private String name;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    @Builder
+    public Category(Long id, String name){
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
+    } 
 }
